@@ -1,0 +1,29 @@
+# Environment variables and credentials (never commit real secrets)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Python virtual environments & cache
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node dependencies and build outputs
+node_modules/
+dist/
+build/
+.vercel/
+
+# Logs
+*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor configurations
+.vscode/
+.idea/
