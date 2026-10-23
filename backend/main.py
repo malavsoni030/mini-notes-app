@@ -1,13 +1,19 @@
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 import sys
 from typing import List
+from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 # Ensure backend directory is in sys.path so modules import reliably
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# Load environment variables from backend/.env if available
+env_path = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 try:
     from database import get_db
@@ -21,16 +27,38 @@ except ImportError:
 # --- Application Setup ---
 app = FastAPI(title="Notes API")
 
-# List of allowed origins for Cross-Origin Resource Sharing (CORS).
-# Kept in one central list so it is easy to update or add production domains later.
-ALLOWED_ORIGINS = [
+# Default allowed origins if CORS_ORIGINS is not set or empty
+DEFAULT_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
 
+
+def get_allowed_origins() -> List[str]:
+    """
+    Parse allowed origins from the CORS_ORIGINS environment variable.
+    - Expects a comma-separated list of origins.
+    - Trims spaces, removes trailing slashes, and ignores empty items.
+    - Disallows wildcard '*' for security.
+    - Defaults to http://localhost:5173 and http://127.0.0.1:5173 if not set.
+    """
+    cors_env = os.getenv("CORS_ORIGINS")
+    if not cors_env:
+        return DEFAULT_ALLOWED_ORIGINS
+
+    origins: List[str] = []
+    for item in cors_env.split(","):
+        cleaned = item.strip().rstrip("/")
+        # Ignore empty items and strictly disallow wildcard "*" for security
+        if cleaned and cleaned != "*":
+            origins.append(cleaned)
+
+    return origins if origins else DEFAULT_ALLOWED_ORIGINS
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
+    allow_origins=get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
