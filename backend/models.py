@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import BigInteger, Column, DateTime, Integer, Text
+from sqlalchemy import BigInteger, Column, DateTime, Integer, Text, Uuid
 
 try:
     from database import Base
@@ -16,6 +16,7 @@ class Note(Base):
       - content: text, not null (defaults to empty string)
       - created_at: timestamptz, not null
       - updated_at: timestamptz, not null
+      - user_id: uuid, nullable (foreign key to auth.users in Supabase)
     """
     __tablename__ = "notes"
 
@@ -39,3 +40,4 @@ class Note(Base):
         nullable=False,
         default=lambda: datetime.now(timezone.utc),
     )
+    user_id = Column(Uuid, nullable=True, index=True)

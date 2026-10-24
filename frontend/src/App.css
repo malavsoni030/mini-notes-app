@@ -351,3 +351,48 @@
     width: 100%;
   }
 }
+
+
+/* --- Email/password login --- */
+.login-card {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.login-submit {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.login-toggle {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.link-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #2563eb;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.account-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  color: #475569;
+  font-size: 0.9rem;
+}

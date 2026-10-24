@@ -99,10 +99,11 @@ Copy the example environment file:
   cp .env.example .env
   ```
 
-Open `.env` and configure your database connection string and CORS origins:
+Open `.env` and configure your database connection string, CORS origins, and Supabase project URL:
 ```env
 DATABASE_URL=postgresql://postgres.<project-ref>:<your-password>@aws-0-<region>.pooler.supabase.com:5432/postgres
 CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+SUPABASE_URL=https://<your-project-ref>.supabase.co
 ```
 
 ### 6. Verify database connectivity (Optional)
@@ -166,6 +167,7 @@ Open `http://localhost:5173` in your browser to use the Notes App.
 | :--- | :--- | :--- | :--- |
 | `DATABASE_URL` | `backend/.env` | `postgresql://postgres.<project-ref>:<your-password>@aws-0-<region>.pooler.supabase.com:5432/postgres` | PostgreSQL connection string for database access |
 | `CORS_ORIGINS` | `backend/.env` | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated list of allowed frontend origins (trimmed, trailing slashes removed; wildcard `*` is disallowed) |
+| `SUPABASE_URL` | `backend/.env` | `https://<your-project-ref>.supabase.co` | Supabase project URL used for JWT authentication and JWKS verification |
 | `VITE_API_BASE_URL` | `frontend/.env` | `http://127.0.0.1:8000` | Backend API URL used by the frontend client |
 
 ---
